@@ -198,4 +198,4 @@ if (myTest || ((a + b) == 10)) {
 ```
 
 > C sharp의 논리 연산자는 어떤게 있을까?
-> <https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/boolean-logical-operators>{: target="_blank" }
+> <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/boolean-logical-operators" target="_blank">https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/boolean-logical-operators</a>
