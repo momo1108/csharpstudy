@@ -223,3 +223,255 @@ for (int i = 0; i < 5; i++) {
     Console.WriteLine(i);
 }
 ```
+
+## List of T and Collections of Data
+### List
+```cs
+var names = new List<string>(["Hyechan", "Ana", "Felipe"]);
+
+names.Add("David");
+names.Add("Damian");
+names.Add("Maria");
+
+Console.WriteLine(names[0]);
+Console.WriteLine(names[2]);
+Console.WriteLine(names[names.Count - 1]);
+Console.WriteLine(names[^1]);
+
+foreach (var name in names[1..^1]) {
+    Console.WriteLine($"Hello {name.ToUpper()}!");
+}
+```
+
+인스턴스 생성법들
+- `var names = new List<string>{"Hyechan", "Ana", "Felipe"};`
+- `var names = new List<string>(["Hyechan", "Ana", "Felipe"]);`
+- `List<string> names = ["Hyechan", "Ana", "Felipe"];`
+- 이것도 돼? `var names = new List<string>(["Hyechan", "Ana", "Felipe"]){ "David", "Damian", "Maria" };`
+
+var
+: Local Variable Type Inference. `var` 를 사용하고 반대편의 내용을 C# 이 무엇인지 알 수 있으면 infer 해준다.(타입추론)
+
+foreach
+: 리스트의 요소들은 하나씩 사용한다.
+
+### Array
+대부분의 언어에서 사용되는 primitive type. 어떤 요소 리스트를 저장하기 위해 사용.
+
+```cs
+var names = new string[] { "Hyechan", "Ana", "Felipe" };
+
+foreach (var name in names) {
+    Console.WriteLine($"Hello {name.ToUpper()}!");
+}
+```
+
+**Arrays are fixed in length!**
+
+Array의 길이는 고정이기 때문에, 크기 확장을 위해선 확장된 크기의 새로운 Array를 만들고 기존 값들을 넣어야 한다.
+
+**C# 12버전(2023.11.18)부터 훨씬 간단한 방법을 사용 가능하다.**
+
+```cs
+var names = new string[] { "Hyechan", "Ana", "Felipe" };
+
+names = [..names, "Damian"];
+
+foreach (var name in names) {
+    Console.WriteLine($"Hello {name.ToUpper()}!");
+}
+```
+
+### Sorting, Searching
+```cs
+var numbers = new List<int>{ 45, 56, 99, 48, 67, 78 };
+
+Console.WriteLine($"I found 99 at index {numbers.IndexOf(99)}");
+numbers.Sort();
+Console.WriteLine($"I found 99 at index {numbers.IndexOf(99)}");
+
+foreach (var number in numbers) {
+    Console.WriteLine($"{number}");
+}
+```
+
+## LINQ
+C# 내부적으로 query 기능 구현. 자세한 내용은 [ms 도큐먼트](https://learn.microsoft.com/en-us/dotnet/csharp/linq/) 참조
+
+```cs
+// Specify the data source.
+List<int> scores = [97, 92, 81, 60];
+
+// Define the query expression.
+IEnumerable<int> scoreQuery =
+    from score in scores
+    where score > 80
+    select score;
+
+// Execute the query.
+foreach (var i in scoreQuery) {
+    Console.Write(i + " ");
+}
+```
+
+`scoreQuery` 자체는 정답이 아니라 query 이다. query의 실행은 `foreach` 구문에서 이루어진다.
+
+Syntax Highlighting을 보면 알겠지만, 단순히 SQL 등의 query를 문자열로 쓰는게 아니라, 내부적으로 구현이 되어있다.
+
+### Query Expressions
+다양한 작업을 체인시켜서 한번에 사용할 수 있다. (ex. 기존의 Sort를 orderby로 체이닝)
+
+```cs
+// Specify the data source.
+List<int> scores = [90, 88, 97, 92, 81, 60];
+
+// Define the query expression.
+IEnumerable<string> scoreQuery =
+    from score in scores
+    where score > 80
+    orderby score descending
+    select $"The score is {score}";
+
+Console.WriteLine(scoreQuery.Count());
+
+// Execute the query.
+foreach (string s in scoreQuery) {
+    Console.WriteLine(s);
+}
+```
+
+### Method Syntax
+```cs
+// Specify the data source.
+List<int> scores = [90, 88, 97, 92, 81, 60];
+
+// Define the query expression.
+var scoreQuery = scores.Where(s => s > 80).OrderByDescending(s => s);
+
+// Execute the query.
+foreach (int score in scoreQuery) {
+    Console.WriteLine(score);
+}
+
+var result = scoreQuery.ToList();
+```
+
+## OOP
+Object-oriented Programming
+
+older version of C#(현재는 이런 폼을 자동 생성해주는 것)
+
+```cs
+using System;
+
+namespace MyNamespace {
+    public class MyApp {
+        public static void Main() {
+            Console.WriteLine("Hello");
+        }
+    }
+}
+```
+
+namespace 와 class 명이 구분되기 위한 식별자같은 역할
+
+class를 선언할 때 보편적인 방법으로 멤버 필드를 설정할 수 있지만, primary constructor를 사용하면 더 깔끔한 코드를 작성할 수 있다.
+
+**보편적인 방법**
+
+```cs
+var p1 = new Person("Hyechan", "Bang", new DateOnly(1993, 11, 8));
+var p2 = new Person("Peter", "Parker", new DateOnly(1970, 5, 12));
+
+List<Person> people = [p1, p2];
+
+Console.WriteLine(people[0].First);
+
+public class Person {
+    public Person(string firstname, string lastname, DateOnly birthday){
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.birthday = birthday;
+    }
+
+    private string firstname;
+    private string lastname;
+    private DateOnly birthday; // 새로운 타입(DateTime에서 Date만)
+
+    public string First { get { return firstname; } }
+    public string Last { get { return lastname; } }
+    public DateOnly Birthday { get { return birthday; } }
+}
+```
+
+**primary constructor를 사용한 방법**
+
+```cs
+var p1 = new Person("Hyechan", "Bang", new DateOnly(1993, 11, 8));
+var p2 = new Person("Peter", "Parker", new DateOnly(1970, 5, 12));
+
+List<Person> people = [p1, p2];
+
+Console.WriteLine(people[0].First);
+
+public class Person(string firstname, string lastname, DateOnly birthday)
+{
+    public string First {get;} = firstname; // 이건 한번 정하고 고정하기 위해서 get에서 return 안하고 대입한건가?
+    public string Last {get;} = lastname;
+    public DateOnly Birthday {get;} = birthday;
+}
+```
+
+### Derived or Abstract Classes, Overrides
+```cs
+var p1 = new Person("Hyechan", "Bang", new DateOnly(1993, 11, 8));
+var p2 = new Person("Peter", "Parker", new DateOnly(1970, 5, 12));
+
+p1.Pets.Add(new Dog("Fred"));
+p1.Pets.Add(new Dog("Barney"));
+
+p2.Pets.Add(new Cat("Beyonce"));
+
+List<Person> people = [p1, p2];
+
+foreach (var person in people) {
+    Console.WriteLine($"{person}");
+    foreach (Pet pet in person.Pets) {
+        Console.WriteLine($"{pet}");
+    }
+}
+
+public class Person(string firstname, string lastname, DateOnly birthday)
+{
+    public string First {get {return firstname;}}
+    public string Last {get {return lastname;}}
+    public DateOnly Birthday {get {return birthday;}}
+
+    public List<Pet> Pets {get;} = [];
+
+    public override string ToString()
+    {
+        return $"{First} {Last}";
+    }
+}
+
+public abstract class Pet(string firstname) {
+    public string First {get;} = firstname;
+
+    public abstract string MakeNoise();
+
+    public override string ToString()
+    {
+        return $"└ My name is {First} and I'm a {GetType().Name}. I {MakeNoise()}!";
+    }
+}
+
+// 상속 시 콜론(:) 사용 후 부모 constructor에 바로 넘겨주기 가능.(C# 12버전부터 지원)
+public class Cat(string firstname) : Pet {
+    public override string MakeNoise(){return "meow";}
+}
+
+public class Dog(string firstname) : Pet {
+    public override string MakeNoise() => "bark";
+}
+```
