@@ -475,3 +475,111 @@ public class Dog(string firstname) : Pet {
     public override string MakeNoise() => "bark";
 }
 ```
+
+<br>
+
+---
+
+<br>
+
+# .NET
+What is .NET?
+
+> .NET is a free, open-source & cross-platform development platform.
+
+- Free
+- Works & runs on Linux, Mac, Windows
+- Programming languages & libraries
+
+Languages
+- C# (OOP)
+- F# (Functional Programming) and more
+
+Tools
+- Visual Studio
+- Visual Studio Code
+
+거의 모든 서비스를 개발할 수 있다.
+
+- Web, Mobile and desktop Application
+- Cloud
+- Microservices
+
+## .NET vs .NET Framework
+|.NET|.NET Framework|
+|:---:|:---:|
+|Runs on Linux, macOS, Windows|Only runs on Windows|
+|Open-source & accepts contributions from community|Source code available but does not accept contributions|
+|All the innovation happens here! Supports more application types and delivers higher performance|Security & reliability bug fixes only|
+|Not shipped with operating system|Included in Windwos & updated by Windows updates|
+|**Recommended for new development**||
+
+.NET framework 는 MS 초기의 상품이고, .NET은 현대화된 버전이다.
+
+버전 정보를 봤을 때 4.8.1 버전 이하이면 .NET Framekwork 이고, 5 버전 이상이면 .NET 이다
+
+간단한 코드
+
+```cs
+Console.WriteLine("What is your name?");
+var name = Console.ReadLine();
+var currentDate = DateTime.Now;
+Console.WriteLine($"{Environment.NewLine}Hello, {name}, it's {currentDate:d}!");
+Console.Write($"{Environment.NewLine}Press any key to exit...");
+Console.ReadKey(true); // true 사용 시 누른 키는 출력되지 않음
+```
+
+## 프로젝트에 패키지 추가하기
+.NET의 패키지 매니져인 Nuget(누겟)을 사용한다.
+
+공식 홈페이지(https://www.nuget.org/)
+
+npm과 같이 인스톨 코드를 제공한다.
+
+예시) `dotnet add package PasswordGenerator --version 2.1.0`
+
+코드를 복사한 후 터미널을 켜고 프로젝트 폴더 경로에서 실행한다.
+
+설치한 패키지를 사용해보자.
+
+```cs
+using PasswordGenerator;
+
+var pwd = new Password();
+var password = pwd.Next();
+Console.WriteLine(password);
+
+var passwords = pwd.NextGroup(10);
+foreach (var p in passwords) {
+    Console.WriteLine(p.ToString());
+}
+```
+
+<br>
+
+---
+
+<br>
+
+# ASP.NET
+What is ASP.NET?
+
+> Open-source Web Framework for building fast and secure web apps and services within .NET
+>
+> Cross-platform service. You can build ASP.NET web apps on any operating system.
+>
+> 써드파티 앱(MS, Google, Twitter, ...)을 사용해 사이트 인증을 구현할 수도 있다.
+>
+> You can make your web pages with a language called razor(Just HTML and C#). ASP.NET and Visual Studio, .NET is all Free.
+
+
+Visual Studio를 이용해 프로젝트를 생성해보자.
+
+## 프로젝트 생성
+비쥬얼 스튜디오 실행
+
+새 프로젝트 만들기
+
+템플릿은 ASP.NET Core 웹앱
+
+Visual Studio 같은 단어 선택은 `Shift + Alt + .`
